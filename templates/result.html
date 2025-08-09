@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Scheduling Result</h2>
+<table border="1">
+    <tr>
+        {% for key in result[0].keys() %}
+        <th>{{ key }}</th>
+        {% endfor %}
+    </tr>
+    {% for r in result %}
+    <tr>
+        {% for val in r.values() %}
+        <td>{{ val }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

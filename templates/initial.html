@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Initial State</h2>
+<table border="1">
+    <tr>
+        {% for key in resources[0].keys() %}
+        <th>{{ key }}</th>
+        {% endfor %}
+    </tr>
+    {% for r in resources %}
+    <tr>
+        {% for val in r.values() %}
+        <td>{{ val }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Work Items</h2>
+<table border="1">
+    <tr>
+        {% for key in work_items[0].keys() %}
+        <th>{{ key }}</th>
+        {% endfor %}
+    </tr>
+    {% for w in work_items %}
+    <tr>
+        {% for val in w.values() %}
+        <td>{{ val }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<button id="runScheduler">Run Scheduler</button>
+<div id="loading" style="display:none;">
+    <img src="{{ url_for('static', filename='img/loading.gif') }}" alt="Loading...">
+</div>
+<div id="result"></div>
+
+<script>
+    $("#runScheduler").on("click", function () {
+        $("#loading").show();
+        $.ajax({
+            url: "/run-scheduler",
+            type: "POST",
+            success: function (data) {
+                $("#result").html(data);
+                $("#loading").hide();
+            }
+        });
+    });
+</script>
+{% endblock %}

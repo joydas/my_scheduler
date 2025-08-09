@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <button type="submit">Upload</button>
+</form>
+<div id="loading" style="display:none;">
+    <img src="{{ url_for('static', filename='img/loading.gif') }}" alt="Loading...">
+</div>
+<div id="content"></div>
+
+<script>
+    $("#uploadForm").on("submit", function (e) {
+        e.preventDefault();
+        $("#loading").show();
+        var formData = new FormData(this);
+        $.ajax({
+            url: "/upload",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $("#content").html(data);
+                $("#loading").hide();
+            }
+        });
+    });
+</script>
+{% endblock %}
