@@ -91,10 +91,13 @@ class Scheduler:
 
         # Keep searching until a block with no overlap found
         while True:
+            print(resource.get("name"))
             block = self.generate_business_days(
                 attempt_dt.strftime("%Y-%m-%d"), duration_days)
             # if none of the dates in block are in resource's leave_schedule => available
             if all(day not in resource.get("leave_schedule", []) for day in block):
+                print(resource.get("name"))
+                print(block)
                 return block
             # otherwise shift start by 1 day and try again (to next business day)
             attempt_dt += timedelta(days=1)
@@ -175,18 +178,18 @@ if __name__ == "__main__":
     # Quick local test
     sample_resources = [
         {"id": "r1", "name": "Dev 1", "type": Scheduler.RESOURCE_TYPE_DEVELOPER,
-            "leave_schedule": ["2025-08-06"]},
+            "leave_schedule": ["2025-08-12"]},
         {"id": "r2", "name": "Dev 2",
-            "type": Scheduler.RESOURCE_TYPE_DEVELOPER, "leave_schedule": []},
+            "type": Scheduler.RESOURCE_TYPE_DEVELOPER, "leave_schedule": [""]},
         {"id": "r3", "name": "Tester 1", "type": Scheduler.RESOURCE_TYPE_TESTER,
             "leave_schedule": ["2025-08-08"]},
         {"id": "r4", "name": "Tester 2",
             "type": Scheduler.RESOURCE_TYPE_TESTER, "leave_schedule": []}
     ]
     sample_work_items = [
-        {"id": "w1", "name": "Work 1", "dev_effort": 2.5,
+        {"id": "w1", "name": "Work 1", "dev_effort": 1,
             "tester_effort": 1.0, "priority": 1},
-        {"id": "w2", "name": "Work 2", "dev_effort": 1.0,
+        {"id": "w2", "name": "Work 2", "dev_effort": 2.0,
             "tester_effort": 0.5, "priority": 2}
     ]
 
